@@ -1,6 +1,6 @@
 (function() {
 
-  var seen, controlsClass="tmpl_"+Date().toString().replace(/[ \:\-\(\)]/g, '');
+  var seen, controlsClass="state"+Date().toString().replace(/[ \:\-\(\)]/g, '');
 
   function accessibleStates(state) {
     return $("[state]:hidden")
