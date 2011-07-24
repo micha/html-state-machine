@@ -23,7 +23,9 @@
   }
 
   function mkButtons(state) {
-    $('.'+controlsClass).empty();
+    $('.'+controlsClass)
+      .empty()
+      .append("<button style='background-color:transparent;border:0px'>Available states:&nbsp;</button>");
     accessibleStates(state)
       .sort(function(a,b) {
         return parseInt($(a).attr("state")) > parseInt($(b).attr("state"));
