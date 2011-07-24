@@ -16,16 +16,14 @@
 
   function mkButton(state) {
     return $(
-      "<button state='"+state+"'>State "+state+"</button>"
-    ).click(function() {
-      setState(state);
-    });
+      "<a href='javascript:void(0)' state='"+state+"'>State "+state+"</a>"
+    ).click(function() { setState(state) });
   }
 
   function mkButtons(state) {
     $('.'+controlsClass)
       .empty()
-      .append("<button style='background-color:transparent;border:0px'>Available states:&nbsp;</button>")
+      .append("<span>Available states:&nbsp;</span>")
       .append(mkButton(0));
     accessibleStates(state)
       .sort(function(a,b) {
@@ -73,12 +71,22 @@
   }
 
   $(function() {
-    $("body").prepend($(
-      "<div/>"
-    )).append($(
-      "<div style='position:fixed;top:0;left:0;background:orange;width:100%' "
-          +"class='"+controlsClass+"'/>"
+    $("head").append($(
+      "<style type='text/css'>"+
+        "div."+controlsClass+" {"+
+          "background:orange;padding:8px;font-family:sans-serif;"+
+          "margin:0;position:absolute;top:0;left:0;color:black;"+
+        "}"+
+        "div."+controlsClass+" a, div."+controlsClass+" span {"+
+          "margin:5px;color:black;"+
+        "}"+
+        "div."+controlsClass+" a:hover {"+
+          "color:red;"+
+        "}"+
+      "</style>"
     ));
+    $("body").append($("<div class='"+controlsClass+"'/>"));
+    $("body").keyup(function() { $("."+controlsClass).toggle() });
     setState(0);
   });
 
