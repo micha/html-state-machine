@@ -52,13 +52,15 @@
         .not("[state][add_class],[state][remove_class]")
         .hide();
     } else {
-      accessibleStates(state).filter("[state='"+state+"']")
+      $("[state='"+state+"']")
         .show()
         .each(function() {
           var jq = $(this);
           var ds = jq.attr("disable_state");
-          jq.addClass(jq.attr("add_class"));
-          jq.removeClass(jq.attr("remove_class"));
+          var ac = jq.attr("add_class");
+          var rc = jq.attr("remove_class");
+          if (ac) jq.addClass(ac);
+          if (rc) jq.removeClass(rc);
           if (ds)
             seen[ds] = true;
         })
