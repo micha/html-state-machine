@@ -61,8 +61,7 @@
           var rc = jq.attr("remove_class");
           if (ac) jq.addClass(ac);
           if (rc) jq.removeClass(rc);
-          if (ds)
-            seen[ds] = true;
+          if (ds) seen[ds] = true;
         })
         .find("[state]")
         .hide();
