@@ -25,7 +25,8 @@
   function mkButtons(state) {
     $('.'+controlsClass)
       .empty()
-      .append("<button style='background-color:transparent;border:0px'>Available states:&nbsp;</button>");
+      .append("<button style='background-color:transparent;border:0px'>Available states:&nbsp;</button>")
+      .append(mkButton(0));
     accessibleStates(state)
       .sort(function(a,b) {
         return parseInt($(a).attr("state")) > parseInt($(b).attr("state"));
@@ -42,15 +43,16 @@
   function setState(state) {
     if (state == 0) {
       seen = {};
-      $("body").prepend($(
-        "<div/>"
-      )).append($(
-        "<div style='position:fixed;top:0;left:0;background:orange;width:100%' "
-            +"class='"+controlsClass+"'/>"
-      ));
       $("[state]")
         .not("[state][add_class],[state][remove_class]")
         .hide();
+      $("[state][add_class],[state][remove_class]").each(function() {
+        var jq = $(this);
+        var ac = jq.attr("add_class");
+        var rc = jq.attr("remove_class");
+        if (ac) jq.removeClass(ac);
+        if (rc) jq.addClass(rc);
+      });
     } else {
       $("[state='"+state+"']")
         .show()
@@ -71,6 +73,12 @@
   }
 
   $(function() {
+    $("body").prepend($(
+      "<div/>"
+    )).append($(
+      "<div style='position:fixed;top:0;left:0;background:orange;width:100%' "
+          +"class='"+controlsClass+"'/>"
+    ));
     setState(0);
   });
 
