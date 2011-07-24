@@ -1,4 +1,4 @@
-(function() {
+(function($) {
 
   var seen, controlsClass="state"+Date().toString().replace(/[ \:\-\(\)]/g, '');
 
@@ -90,4 +90,4 @@
     setState(0);
   });
 
-})();
+})(jQuery);
