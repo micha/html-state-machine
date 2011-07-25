@@ -80,6 +80,7 @@
           "tt > a:hover { color:red; }"+
         "</style>"
       );
+      $("body").keyup(function() { parent.jQuery("#"+controlsId).toggle() });
     } else {
       $("body").keyup(function() { $("#"+controlsId).toggle() });
       $("body").prepend("<iframe id='"+controlsId+"' scrolling='no' style='border:none;width:100%;position:absolute;top:0;left:0;overflow:hidden;background-color:orange;height:30px;' src='"+window.location+"?controls'/>");
