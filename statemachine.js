@@ -1,6 +1,6 @@
 (function($) {
 
-  var seen, controlsClass="state"+Date().toString().replace(/[ \:\-\(\)]/g, '');
+  var seen, controlsId="state"+Date().toString().replace(/[ \:\-\(\)]/g, '');
 
   function accessibleStates(state) {
     return $("[state]:hidden")
@@ -16,26 +16,25 @@
 
   function mkButton(state) {
     return $(
-      "<a href='javascript:void(0)' state='"+state+"'>State "+state+"</a>"
+      "<tt><a href='javascript:void(0)' state='"+state+"'>"+state+"</a></tt>"
     ).click(function() { setState(state) });
   }
 
   function mkButtons(state) {
-    $('.'+controlsClass)
-      .empty()
-      .append("<span>Available states:&nbsp;</span>")
-      .append(mkButton(0));
+    $("#"+controlsId).contents().find("a").remove();
+    $("#"+controlsId).contents().find("body").append(mkButton(0));
     accessibleStates(state)
       .sort(function(a,b) {
         return parseInt($(a).attr("state")) > parseInt($(b).attr("state"));
       })
       .each(function() {
         var st = $(this).attr("state");
-        if (! $('.'+controlsClass).find("[state='"+st+"']").size() 
-          && st != state && ! seen[st])
-          $('.'+controlsClass).append(mkButton(st));
+        if (! $("#"+controlsId).contents().find("[state='"+st+"']").size() 
+          && st != state && ! seen[st]) {
+          console.log("got here for state '"+st+"'");
+          $("#"+controlsId).contents().find("body").append(mkButton(st));
+        }
       });
-    $("div").eq(0).height($('.'+controlsClass).height());
   }
 
   function setState(state) {
@@ -71,23 +70,23 @@
   }
 
   $(function() {
-    $("head").append($(
-      "<style type='text/css'>"+
-        "div."+controlsClass+" {"+
-          "background:orange;padding:8px;font-family:sans-serif;"+
-          "margin:0;position:absolute;top:0;left:0;color:black;"+
-        "}"+
-        "div."+controlsClass+" a, div."+controlsClass+" span {"+
-          "margin:5px;color:black;"+
-        "}"+
-        "div."+controlsClass+" a:hover {"+
-          "color:red;"+
-        "}"+
-      "</style>"
-    ));
-    $("body").append($("<div class='"+controlsClass+"'/>"));
-    $("body").keyup(function() { $("."+controlsClass).toggle() });
-    setState(0);
+    if (window.location.search == '?controls') {
+      $("body").empty();
+      $("body").append("<tt>Available states:&nbsp;<tt><a href='javascript:void(0)'>0</a>");
+      $("head").append(
+        "<style type='text/css'>"+
+          "body { font-family:sans-serif;font-size:15px }"+
+          "tt > a { text-decoration:none;color:darkblue;margin-right:.75em;margin-left:.75em; }"+
+          "tt > a:hover { color:red; }"+
+        "</style>"
+      );
+    } else {
+      $("body").keyup(function() { $("#"+controlsId).toggle() });
+      $("body").prepend("<iframe id='"+controlsId+"' scrolling='no' style='border:none;width:100%;position:absolute;top:0;left:0;overflow:hidden;background-color:orange;height:30px;' src='"+window.location+"?controls'/>");
+      $("#"+controlsId).load(function() {
+        setState(0);
+      });
+    }
   });
 
 })(jQuery);
