@@ -122,7 +122,7 @@ function init() {
               if (moving>=0 && moving<=10)
                 moving++;
             }
-            setInterval(doit, 50);
+            setInterval(doit, 25);
           });
       }
     });
