@@ -16,7 +16,7 @@
 
   function mkButton(state) {
     return $(
-      "<tt><a href='javascript:void(0)' state='"+state+"'>"+state+"</a></tt>"
+      "<tt><a href='javascript:void(0)' state='"+state+"'>["+state+"]</a></tt>"
     ).click(function() { setState(state) });
   }
 
@@ -70,23 +70,52 @@
   }
 
   $(function() {
+    var moving=0;
     if (window.location.search == '?controls') {
-      $("body").empty();
-      $("body").append("<tt>Available states:&nbsp;<tt><a href='javascript:void(0)'>0</a>");
+      $("head,body").empty();
       $("head").append(
         "<style type='text/css'>"+
-          "body { font-family:sans-serif;font-size:15px }"+
-          "tt > a { text-decoration:none;color:darkblue;margin-right:.75em;margin-left:.75em; }"+
+          "body { font-family:sans-serif;font-size:12px }"+
+          "tt > a { text-decoration:none;color:darkblue;margin-right:.75em; }"+
           "tt > a:hover { color:red; }"+
+          "#anykey { float:right; }"+
         "</style>"
       );
-      $("body").keyup(function() { parent.jQuery("#"+controlsId).toggle() });
+      $("body").append("<tt>Available states:&nbsp;<tt>");
     } else {
-      $("body").keyup(function() { $("#"+controlsId).toggle() });
-      $("body").prepend("<iframe id='"+controlsId+"' scrolling='no' style='border:none;width:100%;position:absolute;top:0;left:0;overflow:hidden;background-color:orange;height:30px;' src='"+window.location+"?controls'/>");
-      $("#"+controlsId).load(function() {
-        setState(0);
-      });
+      $("body")
+        .prepend(
+          $("<iframe/>")
+            .attr({
+              id:controlsId,
+              scrolling:'no',
+              src:window.location+"?controls"
+            })
+            .css({
+              border:               'none',
+              width:                '100%',
+              position:             'absolute',
+              top:                  '0',
+              left:                 '0',
+              overflow:             'hidden',
+              'background-color':   'orange',
+              height:               '30px'
+            }))
+        .mousemove(function() { moving=0 });
+      $("#"+controlsId)
+        .hover(function() { moving=-1 }, function() { moving=0 })
+        .load(function() {
+          setState(0);
+          function doit() {
+            if (moving<10 && $("#"+controlsId+":hidden").size())
+              $("#"+controlsId).slideDown();
+            else if (moving>10 && $("#"+controlsId+":visible").size())
+              $("#"+controlsId).slideUp();
+            if (moving>=0 && moving<=10)
+              moving++;
+          }
+          setInterval(doit, 50);
+        });
     }
   });
 
