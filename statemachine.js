@@ -39,7 +39,6 @@ function init() {
           var st = $(this).attr("state");
           if (! $("#"+controlsId).contents().find("[state='"+st+"']").size() 
             && st != state && ! seen[st]) {
-            console.log("got here for state '"+st+"'");
             $("#"+controlsId).contents().find("body").append(mkButton(st));
           }
         });
