@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <title>Template Test</title>
+    <script src="statemachine.js" type="text/javascript"></script>
+    <style type="text/css">
+      .foo {
+        background-color: orange;
+      }
+      body tt {
+        color: green;
+      }
+      .bar {
+        border: 1px solid darkblue;
+      }
+      .baz {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 state="4" add_class="baz">Template Test</h1>
+    <p>This is a test of the declarative templating system.</p>
+    <div state="1">
+      <p>
+        This is the first paragraph in state 1.
+        <span state="2" disable_state="4">
+          Hello there!
+        </span>
+        <span state="4" disable_state="2">
+          Goodbye.
+        </span>
+      </p>
+      <p>
+        This is the second paragraph in state 1.
+      </p>
+      <p state="2">
+        This is a paragraph in state 2.
+      </p>
+    </div>
+    <ul state="4">
+      <li>Cats</li>
+      <li>Dogs</li>
+      <li state="5">Fish</li>
+    </ul>
+  </body>
+</html>

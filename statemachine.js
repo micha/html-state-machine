@@ -39,7 +39,6 @@ function init() {
           var st = $(this).attr("state");
           if (! $("#"+controlsId).contents().find("[state='"+st+"']").size() 
             && st != state && ! seen[st]) {
-            console.log("got here for state '"+st+"'");
             $("#"+controlsId).contents().find("body").append(mkButton(st));
           }
         });
@@ -109,20 +108,25 @@ function init() {
                 'background-color':   'orange',
                 height:               '30px'
               }))
-          .mousemove(function() { moving=0 });
+          .mousemove(function(ev) {
+            if (ev.pageY < 60 && moving>=0)
+              moving=0;
+            else if (ev.pageY > 60 && moving < 0)
+              moving=0;
+          });
         $("#"+controlsId)
           .hover(function() { moving=-1 }, function() { moving=0 })
           .load(function() {
             setState(0);
             function doit() {
               if (moving<10 && $("#"+controlsId+":hidden").size())
-                $("#"+controlsId).slideDown();
+                $("#"+controlsId).slideDown('fast');
               else if (moving>10 && $("#"+controlsId+":visible").size())
-                $("#"+controlsId).slideUp();
+                $("#"+controlsId).slideUp('fast');
               if (moving>=0 && moving<=10)
                 moving++;
             }
-            setInterval(doit, 50);
+            setInterval(doit, 25);
           });
       }
     });
