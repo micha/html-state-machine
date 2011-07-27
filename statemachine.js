@@ -109,7 +109,12 @@ function init() {
                 'background-color':   'orange',
                 height:               '30px'
               }))
-          .mousemove(function(ev) { if (ev.pageY<60 && moving>=0) moving=0 });
+          .mousemove(function(ev) {
+            if (ev.pageY < 60 && moving>=0)
+              moving=0;
+            else if (ev.pageY > 60 && moving < 0)
+              moving=0;
+          });
         $("#"+controlsId)
           .hover(function() { moving=-1 }, function() { moving=0 })
           .load(function() {
