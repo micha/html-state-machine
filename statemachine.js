@@ -116,9 +116,9 @@ function init() {
             setState(0);
             function doit() {
               if (moving<10 && $("#"+controlsId+":hidden").size())
-                $("#"+controlsId).slideDown();
+                $("#"+controlsId).slideDown('fast');
               else if (moving>10 && $("#"+controlsId+":visible").size())
-                $("#"+controlsId).slideUp();
+                $("#"+controlsId).slideUp('fast');
               if (moving>=0 && moving<=10)
                 moving++;
             }
