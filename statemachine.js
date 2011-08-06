@@ -131,7 +131,7 @@ function init() {
                 if (moving>=0 && moving<=10)
                   moving++;
               }, 25);
-            }, 1000);
+            }, 2500);
           });
       }
     });
