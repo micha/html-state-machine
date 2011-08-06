@@ -77,13 +77,15 @@ function init() {
     }
 
     $(function() {
-      var moving=0;
+      var moving=0,lastY=Infinity;
       if (window.location.search == '?controls') {
         $("head,body").empty();
         $("head").append(
           "<style type='text/css'>"+
-            "body { font-family:sans-serif;font-size:12px }"+
-            "tt > a { text-decoration:none;color:darkblue;margin-right:.75em; }"+
+            "body { font-weight:bold;font-family:sans-serif;font-size:12px;"+
+            "color:#222; }"+
+            "tt > a { text-decoration:none;font-weight:bold;"+
+            "color:#222;margin-right:.75em; }"+
             "tt > a:hover { color:red; }"+
             "#anykey { float:right; }"+
           "</style>"
@@ -113,20 +115,23 @@ function init() {
               moving=0;
             else if (ev.pageY > 60 && moving < 0)
               moving=0;
+            lastY = ev.pageY;
           });
         $("#"+controlsId)
           .hover(function() { moving=-1 }, function() { moving=0 })
           .load(function() {
             setState(0);
-            function doit() {
-              if (moving<10 && $("#"+controlsId+":hidden").size())
-                $("#"+controlsId).slideDown('fast');
-              else if (moving>10 && $("#"+controlsId+":visible").size())
-                $("#"+controlsId).slideUp('fast');
-              if (moving>=0 && moving<=10)
-                moving++;
-            }
-            setInterval(doit, 25);
+            setTimeout(function() {
+              setInterval(function() {
+                if (moving<10 && $("#"+controlsId+":hidden").size())
+                  $("#"+controlsId).slideDown('fast','linear');
+                else if (moving>10 && $("#"+controlsId+":visible").size()
+                  && lastY > 60)
+                  $("#"+controlsId).slideUp('fast','linear');
+                if (moving>=0 && moving<=10)
+                  moving++;
+              }, 25);
+            }, 1000);
           });
       }
     });
